@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using DateApp.Data;
 using DateApp.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace DateApp.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")] // localhost... /api/users
-    public class UsersController : ControllerBase
+    [Authorize]
+    public class UsersController : BaseApiController
     {
         private readonly DataContext _context;
         public UsersController(DataContext context)
@@ -21,6 +21,7 @@ namespace DateApp.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers() // Action result nam pruza mogucnost da vratimo BadRequest
         {
@@ -29,10 +30,11 @@ namespace DateApp.Controllers
             return users;
         }
 
+        
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUser>> GetUser(int id)
         {
-            var user =await _context.Users.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
 
             return user;
         }
