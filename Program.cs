@@ -1,11 +1,5 @@
-using DateApp.Data;
-using DateApp.Interfaces;
-using DateApp.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using DateApp.Extensions;
+using DateApp.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +17,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 
